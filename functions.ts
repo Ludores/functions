@@ -20,14 +20,14 @@ const ten = (n: number) => {
   if(n == 11)return "Onze"
   if(n == 12)return "douze"
   if(n == 13)return "treize"
-  if(n == 14)return "quatoreze"
+  if(n == 14)return "quatorze"
   if(n == 15)return "quinze"
   if(n == 16)return "seize"
   if(n == 16)return "seize"
   return "dix " + unit(n)
 }
 
-const tens = (n: number) => {
+const tenIndex = (n: number) => {
   if(n < 0 || n > 9)return "unpossible"  
   const obj = {
     1: "dix",
@@ -43,15 +43,56 @@ const tens = (n: number) => {
   return obj[n]
 }
 
-const hundred = (n: number) => {
-  if(n < 0 || n > 9)return "unpossible"  
-  if(n == 1)return "cent"
-  return unit(n) + " cent"
+const tens = (n: number) => {
+  if(n<10)return unit(n)
+  if(n<20)return ten(n)
+  return `${tenIndex(Math.floor(n/10))} ${unit(n%10)}`
 }
+
+const hundred = (n: number) => {
+  if(n < 100)return tens(n)
+  else if (n < 200)return `cent ${tens(n%100)}`
+  else return `${unit(Math.floor(n/100))} cent ${tens(n%100)}`
+}
+
+const index = [
+  "mille",
+  "million",
+  "milliard",
+  "billion",
+  "billiard",
+  "trillion",
+  "trilliard",
+  "quadrillion",
+  "quadrilliard",
+  "quintillion",
+  "quintilliard",
+  "sextillion",
+  "sextilliard",
+  "septillion",
+  "septilliard",
+  "octillion",
+  "octilliard",
+  "nonillion",
+  "nonilliard",
+  "décillion",
+  "décilliard"
+]
 
 export const numberToWords = (number: number) => {
 
-  const [beforeComma, afterComma] = number.toLocaleString().split(",")
+  if(!number)return "impossible"
+  const [beforeComma, afterComma] = number.toString().split(",")
+  
+  if(parseInt(beforeComma).toLocaleString().replace(/\u202F/g, ' ').split(" ").length == 1)return hundred(parseInt(beforeComma))
+  let numbers = beforeComma.split(" ")
+  let indexBegin = numbers.length - 2
+  let result = ""
+  for(let i = indexBegin; i>= -1 ; i--){
 
-  if(afterComma)return ss(beforeComma) + ' virgule ' + ss(afterComma) 
+    if(i == -1)result = result + hundred(parseInt(numbers[0]))
+    else result = result + " " + hundred(parseInt(numbers[0])) + index[i]
+    numbers.slice(1, numbers.length)
+  }
+  return result
 }
