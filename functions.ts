@@ -81,6 +81,7 @@ const index = [
 
 
 //function numberto words
+//function numberto words
 export const numberToWords = (number: number) => {
 
   if(!number)return "impossible"
