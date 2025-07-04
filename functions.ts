@@ -79,6 +79,8 @@ const index = [
   "décilliard"
 ]
 
+
+//function numberto words
 export const numberToWords = (number: number) => {
 
   if(!number)return "impossible"
