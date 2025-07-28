@@ -14,7 +14,6 @@ const unit = (n: number) => {
   }
   return obj[n]
 }
-
 const ten = (n: number) => {
   if(n <= 10 || n > 19)return "unpossible"
   if(n == 11)return "Onze"
